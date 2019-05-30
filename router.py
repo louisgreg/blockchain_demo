@@ -1,9 +1,11 @@
 from flask import Flask, Blueprint, jsonify, request
 from flask_restful import Api
+import sys
 
 from resources.transaction import Transaction
 from resources.mine import Mine
 from resources.chain import Chain
+from resources.nodes import Nodes
 
 from blockchain import Blockchain
 from uuid import uuid4
@@ -25,6 +27,7 @@ node_identifier = str(uuid4()).replace('-', '')
 api.add_resource(Mine, '/mine', resource_class_kwargs={'blockchain':blockchain, 'node_identifier': node_identifier})
 api.add_resource(Transaction, '/transaction/new', resource_class_kwargs={'blockchain':blockchain})
 api.add_resource(Chain, '/chain', resource_class_kwargs={'blockchain':blockchain})
+api.add_resource(Nodes, '/nodes', resource_class_kwargs={'blockchain':blockchain})
 
 app = Flask(__name__)
 app.config.from_object("config")
@@ -46,4 +49,4 @@ def not_found(error=None):
     return resp
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=sys.argv[1])
