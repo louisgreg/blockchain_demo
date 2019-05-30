@@ -3,6 +3,7 @@ import json
 from time import time
 
 from uuid import uuid4
+from urllib.parse import urlparse
 
 
 class Blockchain(object):
@@ -11,7 +12,7 @@ class Blockchain(object):
         self.current_transactions= []
         
         self.new_block(previous_hash=1, proof=100)
-
+        self.nodes = set() 
 
     def new_block(self, proof, previous_hash=None):
         """
@@ -46,6 +47,14 @@ class Blockchain(object):
         })
     
         return self.last_block['index'] + 1
+
+
+    def register_node(self, address):
+        """
+        Add a new node to the list of nodes
+        """
+        parsed_url = urlparse(address)
+        self.nodes.add(parsed_url.netloc)
 
 
     @staticmethod
