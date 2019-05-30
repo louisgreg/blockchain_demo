@@ -1,0 +1,4 @@
+Flask
+requests
+flask_restful
+flask_script
