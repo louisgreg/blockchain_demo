@@ -15,13 +15,13 @@ class Nodes(Resource):
         if replaced:
             response = {
                 'message': 'Our chain was replaced',
-                'new_chain': blockchain.chain
+                'new_chain': self.blockchain.chain
             }
         
         else:
             response = {
                 'message': 'Our chain is authoritative',
-                'chain': blockchain.chain
+                'chain': self.blockchain.chain
             }
         return response, 200
 
@@ -38,11 +38,11 @@ class Nodes(Resource):
             return "Error: Please supply a valid list of nodes", 400
         
         for node in nodes:
-            self.blockchain.register_node()
+            self.blockchain.register_node(node)
 
         response = {
             'message': 'New nodes have been added',
-            'total_nodes': list(blockchain.nodes),
+            'total_nodes': list(self.blockchain.nodes),
         }
         return response, 200
 
